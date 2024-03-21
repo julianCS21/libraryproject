@@ -2,10 +2,8 @@ package com.ECI.book.library.infraestructure.inbound;
 
 
 
-import com.ECI.book.library.application.LendBookUseCase;
+import com.ECI.book.library.application.BookService;
 import com.ECI.book.library.domain.model.Book;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +17,14 @@ import java.util.List;
 public class BookController {
 
     @Autowired
-    private LendBookUseCase lendBookUseCase;
+    private BookService lendBookUseCase;
 
     @GetMapping("/")
     public ResponseEntity<List<Book>> getAll(){
         return ResponseEntity.ok(lendBookUseCase.getAll());
     }
+
+
 
 
 

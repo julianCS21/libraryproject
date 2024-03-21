@@ -1,26 +1,23 @@
 package com.ECI.book.library.domain.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
+import java.util.Date;
+
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Document(collection = "books")
-public class Book {
+public class Penalty {
 
-    @Id
+
     private String id;
-    private String title;
-    private List<Author> authors;
-    private List<Category> categories;
+    private Date dueDate;
     private int amount;
+
 }
