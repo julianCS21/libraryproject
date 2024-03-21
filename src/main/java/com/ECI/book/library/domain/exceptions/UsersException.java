@@ -1,6 +1,6 @@
 package com.ECI.book.library.domain.exceptions;
 
-public class UsersException extends Exception {
+public class UsersException extends LibraryException {
 
     public UsersException(String message) {
         super(message);

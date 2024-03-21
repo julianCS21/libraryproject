@@ -1,6 +1,6 @@
 package com.ECI.book.library.domain.exceptions;
 
-public class LendsException extends Exception {
+public class LendsException extends LibraryException {
 
     public LendsException(String message) {
         super(message);

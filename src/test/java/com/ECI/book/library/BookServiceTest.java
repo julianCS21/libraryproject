@@ -2,6 +2,7 @@ package com.ECI.book.library;
 
 import com.ECI.book.library.application.BookService;
 import com.ECI.book.library.domain.exceptions.LendsException;
+import com.ECI.book.library.domain.exceptions.LibraryException;
 import com.ECI.book.library.domain.exceptions.UsersException;
 import com.ECI.book.library.domain.model.Book;
 import com.ECI.book.library.domain.model.DocType;
@@ -51,7 +52,7 @@ public class BookServiceTest {
     }
 
     @Test(expected = LendsException.BookNotFoundException.class)
-    public void shouldnotLendBookBecauseNotExists(){
+    public void shouldnotLendBookBecauseNotExists() throws LibraryException {
         //Act
 
 
@@ -60,7 +61,7 @@ public class BookServiceTest {
     }
 
     @Test(expected = LendsException.BookNotAvailableException.class)
-    public void shouldnotLendBookBecauseNotAvailable(){
+    public void shouldnotLendBookBecauseNotAvailable() throws LibraryException {
 
         bookService.lendBook(bookId,userId);
 
@@ -69,19 +70,19 @@ public class BookServiceTest {
     }
 
     @Test(expected = LendsException.PendingPenalitiesException.class)
-    public void shouldnotLendBookBecauseOfPenalty(){
+    public void shouldnotLendBookBecauseOfPenalty() throws LibraryException{
         bookService.lendBook(bookId,userId);
 
     }
 
     @Test(expected = UsersException.UserNotFoundException.class)
-    public void shouldnotLendBookBecauseUserNotExist(){
+    public void shouldnotLendBookBecauseUserNotExist() throws LibraryException{
         bookService.lendBook(bookId,userId);
 
     }
 
     @Test
-    public void shouldInventaryChangeIfBookWasLent(){
+    public void shouldInventaryChangeIfBookWasLent() throws LibraryException{
         Book oldBook =  bookService.getBook(bookId);
         bookService.lendBook(bookId,userId);
         Book newBook = bookService.getBook(bookId);
@@ -90,7 +91,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void shouldLendBook(){
+    public void shouldLendBook() throws LibraryException{
         bookService.lendBook(bookId,userId);
     }
 
