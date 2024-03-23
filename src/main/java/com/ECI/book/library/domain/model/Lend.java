@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +20,12 @@ public class Lend {
     private User user;
     private Book book;
     private Penalty penalty;
+
+    public Lend(Penalty penalty,Book book, User user){
+        this.penalty = penalty;
+        this.book = book;
+        this.user = user;
+    }
 
 
 }

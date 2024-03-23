@@ -19,7 +19,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-
 public class BookService {
 
     @Autowired
@@ -43,8 +42,8 @@ public class BookService {
         User findUser = userRepository.findById(userId).orElseThrow(UsersException.UserNotFoundException::new);
         Date today = new Date();
         List<Lend> lendsUser = lendRepository.findByUserId(userId).stream()
-                .filter(lend -> lend.getPenalty() != null && lend.getBook().getAmount() > 0 && lend.getPenalty().getDueDate().before(today) )
-                .collect(Collectors.toList());
+                .filter(lend -> lend.getPenalty() != null && lend.getPenalty().getAmount() > 0 && lend.getPenalty().getDueDate().before(today))
+                .toList();
 
         if(!lendsUser.isEmpty()){
             throw new LendsException.PendingPenalitiesException();

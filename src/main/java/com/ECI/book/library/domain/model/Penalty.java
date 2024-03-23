@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 
@@ -19,5 +18,10 @@ public class Penalty {
     private String id;
     private Date dueDate;
     private int amount;
+
+    public Penalty(Date dueDate, int amount){
+        this.dueDate = dueDate;
+        this.amount = amount;
+    }
 
 }
