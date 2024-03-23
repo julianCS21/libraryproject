@@ -2,7 +2,7 @@
 FROM maven:3.8.4-openjdk-17-slim AS build
 WORKDIR /app
 COPY . .
-RUN mvn package -DskipTests
+RUN mvn package
 
 # Usa una imagen de OpenJDK en Alpine Linux como base para ejecutar la aplicación
 FROM openjdk:17-alpine
