@@ -1,4 +1,4 @@
-package com.ECI.book.library.domain.repository;
+package com.ECI.book.library.infraestructure.repository;
 
 import com.ECI.book.library.domain.model.Lend;
 import org.springframework.data.mongodb.repository.MongoRepository;

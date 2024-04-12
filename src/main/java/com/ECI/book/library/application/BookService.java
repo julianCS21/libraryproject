@@ -7,16 +7,14 @@ import com.ECI.book.library.domain.exceptions.UsersException;
 import com.ECI.book.library.domain.model.Book;
 import com.ECI.book.library.domain.model.Lend;
 import com.ECI.book.library.domain.model.User;
-import com.ECI.book.library.domain.repository.BookRepository;
-import com.ECI.book.library.domain.repository.LendRepository;
-import com.ECI.book.library.domain.repository.UserRepository;
+import com.ECI.book.library.infraestructure.repository.BookRepository;
+import com.ECI.book.library.infraestructure.repository.LendRepository;
+import com.ECI.book.library.infraestructure.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class BookService {
