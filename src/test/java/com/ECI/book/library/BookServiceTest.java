@@ -92,7 +92,6 @@ public class BookServiceTest {
 
     @Test
     public void should_lend_book() throws LibraryException {
-        System.out.println(book.getAmount());
         when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         bookService.lendBook(bookId, userId);
