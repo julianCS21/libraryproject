@@ -1,0 +1,22 @@
+{
+    // Name this configuration
+    "name": "Codespace for Library project",
+    // Use the base codespace image
+    "image": "mcr.microsoft.com/vscode/devcontainers/universal:latest",
+  
+    "remoteUser": "codespace",
+    "overrideCommand": false
+    ,
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "redhat.java"
+            ]
+        },
+        "codespaces": {
+            "openFiles": [
+                "src/main/java/com/ECI/book/library/LibraryApplication.java"
+            ]
+        }
+    }
+  }
