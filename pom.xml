@@ -94,16 +94,16 @@
 				<version>0.8.7</version>
 				<executions>
 					<execution>
-					<id>prepare-agent</id>
-					<goals>
-					<goal>prepare-agent</goal>
-					</goals>
+						<id>prepare-agent</id>
+						<goals>
+						<goal>prepare-agent</goal>
+						</goals>
 					</execution>
 					<execution>
-					<id>report</id>
-					<goals>
-					<goal>report</goal>
-					</goals>
+						<id>report</id>
+						<goals>
+						<goal>report</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
