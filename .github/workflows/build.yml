@@ -37,3 +37,5 @@ jobs:
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
           -Dsonar.projectKey=julianCS21_libraryproject
           -Dsonar.qualitygate.wait=true
+          -Dsonar.coverage.jacoco.xmlReportPaths=${{project.build.directory}}/site/jacoco/jacoco.xml
+
