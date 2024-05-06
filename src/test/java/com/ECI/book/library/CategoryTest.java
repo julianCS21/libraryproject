@@ -142,6 +142,57 @@ public class CategoryTest {
         assertFalse(category1.equals(category3), "Should not be equal with different names.");
         assertFalse(category1.equals(category4), "Should not be equal with different IDs.");
     }
+
+    @Test
+    public void testEqualityOnAllFields() {
+        Category category1 = new Category("1", "Science", "Books about science");
+        Category category2 = new Category("1", "Science", "Books about science");
+        Category categoryDiffId = new Category("2", "Science", "Books about science");
+        Category categoryDiffName = new Category("1", "Technology", "Books about science");
+        Category categoryDiffDescription = new Category("1", "Science", "Scientific books");
+
+        assertTrue(category1.equals(category2), "Should be equal when all fields are the same.");
+        assertFalse(category1.equals(categoryDiffId), "Should not be equal with different IDs.");
+        assertFalse(category1.equals(categoryDiffName), "Should not be equal with different names.");
+        assertFalse(category1.equals(categoryDiffDescription), "Should not be equal with different descriptions.");
+    }
+
+    @Test
+    public void testHashCodeWithNullValues() {
+        Category category = new Category(null, null, null);
+        assertDoesNotThrow(() -> category.hashCode(), "Hash code should handle null values without throwing an exception.");
+    }
+
+    @Test
+    public void testToStringWithNullValues() {
+        Category category = new Category(null, null, null);
+        String expectedString = "Category(id=null, name=null, description=null)";
+        assertEquals(expectedString, category.toString(), "ToString should correctly format string with null values.");
+    }
+
+    @Test
+    public void testEqualsWithItself() {
+        Category category = new Category("1", "Science", "Books about science");
+        assertTrue(category.equals(category), "A category should be equal to itself.");
+    }
+
+    @Test
+    public void testEqualsWithDifferentObjectTypes() {
+        Category category = new Category("1", "Science", "Books about science");
+        String notACategory = "Not a Category";
+        assertFalse(category.equals(notACategory), "Should not be equal to an object of a different type.");
+    }
+
+    @Test
+    public void testMutability() {
+        Category category = new Category("1", "Science", "Books about science");
+        category.setId("2");
+        category.setName("Math");
+        category.setDescription("Books about math");
+        assertEquals("2", category.getId(), "ID should be mutable and change to '2'.");
+        assertEquals("Math", category.getName(), "Name should be mutable and change to 'Math'.");
+        assertEquals("Books about math", category.getDescription(), "Description should be mutable and change to 'Books about math'.");
+    }
 }
 
 
