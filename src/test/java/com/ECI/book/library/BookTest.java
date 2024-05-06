@@ -98,4 +98,50 @@ public class BookTest {
         assertFalse(book1.equals(book3));
         assertNotEquals(book1.hashCode(), book3.hashCode());
     }
+
+
+
+    @Test
+    public void testSetters() {
+        Book book = new Book();
+        Author author = new Author("1", "Author Name", 50, new Date());
+        Category category = new Category("1", "Category Name", "Description");
+
+        book.setId("3");
+        book.setTitle("New Title");
+        book.setAuthors(Arrays.asList(author));
+        book.setCategories(Arrays.asList(category));
+        book.setAmount(25);
+
+        assertEquals("3", book.getId());
+        assertEquals("New Title", book.getTitle());
+        assertEquals(1, book.getAuthors().size());
+        assertEquals(1, book.getCategories().size());
+        assertEquals(25, book.getAmount());
+    }
+
+    @Test
+    public void testEqualsWithDifferentObjects() {
+        Book book1 = new Book("1", "Book One", null, null, 1);
+        Book book2 = new Book("1", "Book One", Arrays.asList(new Author("1", "Author", 40, new Date())), Arrays.asList(new Category("1", "Category", "Desc")), 1);
+
+        assertFalse(book1.equals(book2)); // Testing equality with different authors and categories
+    }
+
+    @Test
+    public void testHashCodeConsistencyAndDifferences() {
+        Book book1 = new Book("1", "Book One", null, null, 1);
+        Book book2 = new Book("1", "Book One", null, null, 1);
+        Book book3 = new Book("2", "Book Two", null, null, 2);
+
+        assertEquals(book1.hashCode(), book2.hashCode()); // Hash codes should be the same for equal objects
+        assertNotEquals(book1.hashCode(), book3.hashCode()); // Hash codes should be different for non-equal objects
+    }
+
+    @Test
+    public void testToStringVariations() {
+        Book book = new Book("1", "Book One", Arrays.asList(new Author("1", "Author", 40, new Date())), Arrays.asList(new Category("1", "Category", "Desc")), 1);
+        String expected = "Book(id=1, title=Book One, authors=[Author(id=1, biography=Author, age=40, birthday=" + book.getAuthors().get(0).getBirthday() + ")], categories=[Category(id=1, name=Category, description=Desc)], amount=1)";
+        assertEquals(expected, book.toString());
+    }
 }
