@@ -266,5 +266,73 @@ public class LendTest {
         assertFalse(lend1.equals(lend2), "Lends should not be equal if the penalties' dates are on edge cases.");
     }
 
+    @Test
+    public void testSettersAndGetters() {
+        User user = new User("1", "John", "Doe", 30, "12345", CC);
+        Book book = new Book("2", "Some Book", null, null, 1);
+        Penalty penalty = new Penalty(new Date(), 100);
+        Lend lend = new Lend();
+
+        lend.setId("5");
+        lend.setUser(user);
+        lend.setBook(book);
+        lend.setPenalty(penalty);
+
+        assertEquals("5", lend.getId());
+        assertSame(user, lend.getUser());
+        assertSame(book, lend.getBook());
+        assertSame(penalty, lend.getPenalty());
+    }
+
+    @Test
+    public void testEqualityAndHashcodeWithNulls() {
+        Lend lend1 = new Lend(null, null, null, null);
+        Lend lend2 = new Lend(null, null, null, null);
+
+        assertTrue(lend1.equals(lend2));
+        assertEquals(lend1.hashCode(), lend2.hashCode());
+    }
+
+    @Test
+    public void testInequalityDueToDifferentClasses() {
+        Lend lend = new Lend("1", new User(), new Book(), new Penalty(new Date(), 100));
+        Object other = new Object();
+
+        assertFalse(lend.equals(other));
+    }
+
+    @Test
+    public void testPenaltyEqualsWithDifferentDates() {
+        Date date1 = new Date();
+        Date date2 = new Date(date1.getTime() + 1000); // one second later
+        Penalty penalty1 = new Penalty(date1, 100);
+        Penalty penalty2 = new Penalty(date2, 100);
+
+        assertFalse(penalty1.equals(penalty2));
+    }
+
+    @Test
+    public void testUserIntegrationInLend() {
+        User user = new User("1", "John", "Doe", 30, "12345", CC);
+        Book book = new Book("2", "Book Title", null, null, 10);
+        Penalty penalty = new Penalty(new Date(), 50);
+        Lend lend = new Lend("10", user, book, penalty);
+
+        assertEquals("John", lend.getUser().getName());
+        assertEquals("Book Title", lend.getBook().getTitle());
+        assertEquals(50, lend.getPenalty().getAmount());
+    }
+
+    @Test
+    public void testLendToStringDetailed() {
+        User user = new User("1", "Alice", "Wonderland", 28, "67890", CC);
+        Book book = new Book("3", "Curiouser and Curiouser", null, null, 5);
+        Penalty penalty = new Penalty(new Date(), 150);
+        Lend lend = new Lend("15", user, book, penalty);
+
+        String expected = "Lend(id=15, user=User(id=1, name=Alice, lastName=Wonderland, age=28, docNumber=67890, docType=CC), book=Book(id=3, title=Curiouser and Curiouser, authors=null, categories=null, amount=5), penalty=Penalty(id=null, dueDate=" + penalty.getDueDate() + ", amount=150))";
+        assertEquals(expected, lend.toString());
+    }
+
 
 }
