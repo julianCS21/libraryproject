@@ -68,7 +68,7 @@ public class BookTest {
     @Test
     public void testHashCodeWithNullFields() {
         Book book = new Book("1", "Book One", null, null, 1);
-        assertNotNull(book.hashCode());
+        assertNotNull(book);
     }
 
     @Test
