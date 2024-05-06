@@ -204,4 +204,67 @@ public class LendTest {
     }
 
 
+    @Test
+    public void testLendEqualityWithDifferentPenaltyValues() {
+        User user = new User("1", "John", "Doe", 30, "12345", CC);
+        Book book = new Book("2", "Some Book", null, null, 1);
+        Penalty penalty1 = new Penalty(new Date(), 100);
+        Penalty penalty2 = new Penalty(new Date(), 200);
+        Lend lend1 = new Lend("1", user, book, penalty1);
+        Lend lend2 = new Lend("1", user, book, penalty2);
+
+        assertFalse(lend1.equals(lend2), "Lends should not be equal if the penalties are different.");
+    }
+
+    @Test
+    public void testLendNullUserAndBookEquality() {
+        Penalty penalty = new Penalty(new Date(), 100);
+        Lend lend1 = new Lend("1", null, null, penalty);
+        Lend lend2 = new Lend("1", null, null, penalty);
+
+        assertTrue(lend1.equals(lend2), "Lends should be equal if both user and book are null and other fields match.");
+    }
+
+    @Test
+    public void testHashCodeWithAllFieldsNull() {
+        Lend lend = new Lend(null, null, null, null);
+        assertDoesNotThrow(() -> lend.hashCode(), "Hash code generation should handle all null values without throwing.");
+    }
+
+    @Test
+    public void testToStringComplex() {
+        User user = new User("1", "Alice", "Johnson", 28, "12345678", CC);
+        Book book = new Book("1", "Effective Java", null, null, 3);
+        Penalty penalty = new Penalty(new Date(), 150);
+        Lend lend = new Lend("complexId", user, book, penalty);
+
+        String expected = "Lend(id=complexId, user=User(id=1, name=Alice, lastName=Johnson, age=28, docNumber=12345678, docType=CC), book=Book(id=1, title=Effective Java, authors=null, categories=null, amount=3), penalty=Penalty(id=null, dueDate=" + penalty.getDueDate() + ", amount=150))";
+        assertEquals(expected, lend.toString(), "ToString should generate a comprehensive description of the Lend object.");
+    }
+
+    @Test
+    public void testLendInequalityWithDifferentIDs() {
+        User user = new User("1", "John", "Doe", 30, "12345", CC);
+        Book book = new Book("2", "Some Book", null, null, 1);
+        Penalty penalty = new Penalty(new Date(), 100);
+        Lend lend1 = new Lend("1", user, book, penalty);
+        Lend lend2 = new Lend("2", user, book, penalty);
+
+        assertFalse(lend1.equals(lend2), "Lends with different IDs should not be equal.");
+    }
+
+    @Test
+    public void testPenaltyDateEdgeCases() {
+        User user = new User("1", "John", "Doe", 30, "12345", CC);
+        Book book = new Book("2", "Some Book", null, null, 1);
+        Date now = new Date();
+        Penalty penaltyJustBeforeNow = new Penalty(new Date(now.getTime() - 1), 100);
+        Penalty penaltyJustAfterNow = new Penalty(new Date(now.getTime() + 1), 100);
+        Lend lend1 = new Lend("1", user, book, penaltyJustBeforeNow);
+        Lend lend2 = new Lend("1", user, book, penaltyJustAfterNow);
+
+        assertFalse(lend1.equals(lend2), "Lends should not be equal if the penalties' dates are on edge cases.");
+    }
+
+
 }
