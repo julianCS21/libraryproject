@@ -140,4 +140,28 @@ public class AuthorTest {
         assertNotEquals(author1.hashCode(), author2.hashCode());
     }
 
+
+    @Test
+    public void testEqualsWithNullFields() {
+        Author author1 = new Author("1", null, 40, null);
+        Author author2 = new Author("1", null, 40, null);
+        Author author3 = new Author("1", "Bio", 40, new Date());
+
+        assertTrue(author1.equals(author2)); // Ambos tienen campos nulos, deberían ser iguales
+        assertFalse(author1.equals(author3)); // Diferencia en campos que son nulos en uno y no en el otro
+
+        assertEquals(author1.hashCode(), author2.hashCode());
+        assertNotEquals(author1.hashCode(), author3.hashCode());
+    }
+
+    @Test
+    public void testNullBiographyAndBirthdayInEqualsAndHashcode() {
+        Author authorWithNullFields = new Author("1", null, 40, null);
+        Author authorWithNonNullFields = new Author("1", "Bio", 40, new Date());
+
+        assertFalse(authorWithNullFields.equals(authorWithNonNullFields));
+        assertNotEquals(authorWithNullFields.hashCode(), authorWithNonNullFields.hashCode());
+    }
+
+
 }
