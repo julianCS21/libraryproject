@@ -63,4 +63,81 @@ public class AuthorTest {
         String expected = "Author(id=1, biography=Bio, age=40, birthday=" + author.getBirthday() + ")";
         assertEquals(expected, author.toString());
     }
+
+    @Test
+    public void testBuilder() {
+        Date birthday = new Date();
+        Author author = Author.builder()
+                .id("3")
+                .biography("Builder biography")
+                .age(50)
+                .birthday(birthday)
+                .build();
+
+        assertNotNull(author);
+        assertEquals("3", author.getId());
+        assertEquals("Builder biography", author.getBiography());
+        assertEquals(50, author.getAge());
+        assertEquals(birthday, author.getBirthday());
+    }
+
+
+    @Test
+    public void testEqualsWithDifferentId() {
+        Date birthday = new Date();
+        Author author1 = new Author("1", "Bio", 40, birthday);
+        Author author2 = new Author("2", "Bio", 40, birthday);
+        assertFalse(author1.equals(author2));
+    }
+
+    @Test
+    public void testEqualsWithDifferentBiography() {
+        Date birthday = new Date();
+        Author author1 = new Author("1", "Bio1", 40, birthday);
+        Author author2 = new Author("1", "Bio2", 40, birthday);
+        assertFalse(author1.equals(author2));
+    }
+
+    @Test
+    public void testEqualsWithDifferentAge() {
+        Date birthday = new Date();
+        Author author1 = new Author("1", "Bio", 40, birthday);
+        Author author2 = new Author("1", "Bio", 41, birthday);
+        assertFalse(author1.equals(author2));
+    }
+
+    @Test
+    public void testEqualsWithDifferentBirthday() {
+        Author author1 = new Author("1", "Bio", 40, new Date(1000000000000L));
+        Author author2 = new Author("1", "Bio", 40, new Date(1000000000001L));
+        assertFalse(author1.equals(author2));
+    }
+
+    @Test
+    public void testEqualsWithNull() {
+        Author author = new Author("1", "Bio", 40, new Date());
+        assertFalse(author.equals(null));
+    }
+
+    @Test
+    public void testEqualsWithDifferentClass() {
+        Author author = new Author("1", "Bio", 40, new Date());
+        assertFalse(author.equals(new String("Different Class")));
+    }
+
+    @Test
+    public void testHashCodeConsistency() {
+        Date birthday = new Date();
+        Author author = new Author("1", "Bio", 40, birthday);
+        int initialHashCode = author.hashCode();
+        assertEquals(initialHashCode, author.hashCode());
+    }
+
+    @Test
+    public void testHashCodeWithDifferentValues() {
+        Author author1 = new Author("1", "Bio", 40, new Date());
+        Author author2 = new Author("1", "Bio", 41, new Date());
+        assertNotEquals(author1.hashCode(), author2.hashCode());
+    }
+
 }
