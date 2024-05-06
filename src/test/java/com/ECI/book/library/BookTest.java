@@ -144,4 +144,79 @@ public class BookTest {
         String expected = "Book(id=1, title=Book One, authors=[Author(id=1, biography=Author, age=40, birthday=" + book.getAuthors().get(0).getBirthday() + ")], categories=[Category(id=1, name=Category, description=Desc)], amount=1)";
         assertEquals(expected, book.toString());
     }
+
+
+    @Test
+    public void testSettersAndEmptyConstructor() {
+        Book book = new Book();
+        book.setId("10");
+        book.setTitle("Empty Test");
+        book.setAuthors(Collections.emptyList());
+        book.setCategories(Collections.emptyList());
+        book.setAmount(0);
+
+        assertEquals("10", book.getId());
+        assertEquals("Empty Test", book.getTitle());
+        assertTrue(book.getAuthors().isEmpty());
+        assertTrue(book.getCategories().isEmpty());
+        assertEquals(0, book.getAmount());
+    }
+
+    @Test
+    public void testEqualsWithSameReferences() {
+        List<Author> authors = Arrays.asList(new Author("1", "Author One", 45, new Date()));
+        List<Category> categories = Arrays.asList(new Category("1", "Category One", "A category"));
+        Book book1 = new Book("1", "Book One", authors, categories, 5);
+        Book book2 = book1;
+
+        assertTrue(book1.equals(book2));
+    }
+
+    @Test
+    public void testEqualsWithNullsInList() {
+        Book book1 = new Book("1", "Book One", null, null, 1);
+        Book book2 = new Book("1", "Book One", null, null, 1);
+
+        assertTrue(book1.equals(book2));
+
+        List<Author> authors = null;
+        List<Category> categories = null;
+        book1.setAuthors(authors);
+        book1.setCategories(categories);
+
+        assertTrue(book1.equals(book2));
+    }
+
+    @Test
+    public void testNotEqualDifferentLists() {
+        List<Author> authors1 = Arrays.asList(new Author("1", "Author One", 45, new Date()));
+        List<Author> authors2 = Arrays.asList(new Author("2", "Author Two", 50, new Date()));
+        List<Category> categories1 = Arrays.asList(new Category("1", "Category One", "Description One"));
+        List<Category> categories2 = Arrays.asList(new Category("2", "Category Two", "Description Two"));
+
+        Book book1 = new Book("1", "Book One", authors1, categories1, 1);
+        Book book2 = new Book("1", "Book One", authors2, categories2, 1);
+
+        assertFalse(book1.equals(book2));
+    }
+
+    @Test
+    public void testHashCodeVariability() {
+        Book book1 = new Book("1", "Book One", Arrays.asList(new Author("1", "Author", 40, new Date())), Arrays.asList(new Category("1", "Category", "Desc")), 1);
+        Book book2 = new Book("1", "Book One", Arrays.asList(new Author("1", "Author", 40, new Date())), Arrays.asList(new Category("1", "Category", "Desc")), 1);
+        Book book3 = new Book("2", "Book Two", Arrays.asList(new Author("2", "Author", 50, new Date())), Arrays.asList(new Category("2", "Category", "Desc")), 2);
+
+        assertEquals(book1.hashCode(), book2.hashCode());
+        assertNotEquals(book1.hashCode(), book3.hashCode());
+    }
+
+    @Test
+    public void testToStringComplex() {
+        Author author = new Author("1", "Complex Author", 50, new Date());
+        Category category = new Category("1", "Complex Category", "Complex Description");
+        Book book = new Book("1", "Complex Book", Arrays.asList(author), Arrays.asList(category), 15);
+
+        String expectedString = "Book(id=1, title=Complex Book, authors=[Author(id=1, biography=Complex Author, age=50, birthday=" + author.getBirthday() + ")], categories=[Category(id=1, name=Complex Category, description=Complex Description)], amount=15)";
+        assertEquals(expectedString, book.toString());
+    }
 }
