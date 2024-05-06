@@ -10,4 +10,9 @@ class LibraryApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	public void main() {
+		LibraryApplication.main(new String[]{});
+	}
+
 }
