@@ -77,6 +77,71 @@ public class CategoryTest {
         Category category = new Category("1", "Science", "Books about science");
         assertFalse(category.equals(new String("Different Class")));
     }
+
+
+    @Test
+    public void testEqualsWithSelf() {
+        Category category = new Category("1", "Science", "Books about science");
+        assertTrue(category.equals(category), "A category should be equal to itself.");
+    }
+
+    @Test
+    public void testEqualsWithDifferentIds() {
+        Category category1 = new Category("1", "Science", "Detailed description");
+        Category category2 = new Category("2", "Science", "Detailed description");
+        assertFalse(category1.equals(category2), "Categories with different IDs should not be equal.");
+    }
+
+    @Test
+    public void testEqualsWithDifferentNames() {
+        Category category1 = new Category("1", "Science", "Books about science");
+        Category category2 = new Category("1", "Math", "Books about science");
+        assertFalse(category1.equals(category2), "Categories with different names should not be equal.");
+    }
+
+    @Test
+    public void testEqualsWithDifferentDescriptions() {
+        Category category1 = new Category("1", "Science", "Books about science");
+        Category category2 = new Category("1", "Science", "An extensive collection of scientific books");
+        assertFalse(category1.equals(category2), "Categories with different descriptions should not be equal.");
+    }
+
+    @Test
+    public void testHashCodeConsistency() {
+        Category category = new Category("1", "Science", "Books about science");
+        int initialHashCode = category.hashCode();
+        assertEquals(initialHashCode, category.hashCode(), "Hash code should be consistent.");
+    }
+
+    @Test
+    public void testNullIdNameDescription() {
+        Category category = new Category(null, null, null);
+        assertNotNull(category.toString(), "ToString should handle null values without crashing.");
+    }
+
+    @Test
+    public void testSettersWithNull() {
+        Category category = new Category();
+        category.setId(null);
+        category.setName(null);
+        category.setDescription(null);
+
+        assertNull(category.getId(), "ID should be null after setting to null.");
+        assertNull(category.getName(), "Name should be null after setting to null.");
+        assertNull(category.getDescription(), "Description should be null after setting to null.");
+    }
+
+    @Test
+    public void testNotEqualsDifferentValues() {
+        Category category1 = new Category("1", "Science", "Books about science");
+        Category category2 = new Category("1", "Science", "Different description");
+        Category category3 = new Category("1", "Different name", "Books about science");
+        Category category4 = new Category("2", "Science", "Books about science");
+
+        assertFalse(category1.equals(category2), "Should not be equal with different descriptions.");
+        assertFalse(category1.equals(category3), "Should not be equal with different names.");
+        assertFalse(category1.equals(category4), "Should not be equal with different IDs.");
+    }
 }
 
 
