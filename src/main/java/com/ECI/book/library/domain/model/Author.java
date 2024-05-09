@@ -19,6 +19,7 @@ public class Author {
     @Id
     private String id;
     private String biography;
+    private String name;
     private int age;
     private Date birthday;
 }

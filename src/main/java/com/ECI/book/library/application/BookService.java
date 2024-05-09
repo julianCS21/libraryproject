@@ -15,14 +15,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
-public class BookService {
+    public class BookService {
 
-    @Autowired
-    private BookRepository bookRepository;
+        @Autowired
+        private BookRepository bookRepository;
 
-    @Autowired
+        @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -33,6 +34,8 @@ public class BookService {
     }
 
     public Lend lendBook(String bookId, String userId) throws LibraryException {
+        System.out.println(bookId);
+        System.out.println(userId);
         Book findBook = bookRepository.findById(bookId).orElseThrow(LendsException.BookNotFoundException::new);
         if(findBook.getAmount() == 0){
             throw new LendsException.BookNotAvailableException();
@@ -46,7 +49,7 @@ public class BookService {
         if(!lendsUser.isEmpty()){
             throw new LendsException.PendingPenalitiesException();
         }
-        Lend newLend = new Lend("1",findUser,findBook,null);
+        Lend newLend = new Lend(UUID.randomUUID().toString(),findUser,findBook,null);
         lendRepository.save(newLend);
         findBook.setAmount(findBook.getAmount() - 1);
         bookRepository.save(findBook);
@@ -56,6 +59,10 @@ public class BookService {
 
     public Book getBook(String bookId) throws LibraryException {
         return bookRepository.findById(bookId).orElseThrow(LendsException.BookNotFoundException::new);
+    }
 
+    public Book save(Book book){
+        book.setId(UUID.randomUUID().toString());
+        return bookRepository.save(book);
     }
 }
