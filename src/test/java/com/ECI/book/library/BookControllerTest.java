@@ -1,6 +1,7 @@
 package com.ECI.book.library.infraestructure.inbound;
 
 import com.ECI.book.library.application.BookService;
+import com.ECI.book.library.domain.DTO.BookDTO;
 import com.ECI.book.library.domain.DTO.LendDTO;
 import com.ECI.book.library.domain.exceptions.LendsException;
 import com.ECI.book.library.domain.exceptions.LibraryException;
@@ -10,6 +11,7 @@ import com.ECI.book.library.domain.model.Lend;
 import com.ECI.book.library.infraestructure.repository.BookRepository;
 import com.ECI.book.library.infraestructure.repository.LendRepository;
 import com.ECI.book.library.infraestructure.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -73,17 +75,31 @@ public class BookControllerTest {
 
 
 
-
     @Test
     public void saveBook_success() throws Exception {
-        Book book = new Book("1", "Book One", null, null, 1);
-        when(bookService.save(book)).thenReturn(book);
+        // Crear un BookDTO con los datos necesarios para la solicitud
+        BookDTO bookDTO = new BookDTO("1", "Book One", null, null, 1);
 
+        // Crear un Book que se espera que sea retornado por el servicio
+        Book book = new Book("1", "Book One", null, null, 1);
+
+        // Configurar el comportamiento del servicio mock para que devuelva un Book cuando se guarde un Book
+        when(bookService.save(any(Book.class))).thenReturn(book);
+
+        // Serializar el bookDTO a JSON para la petición
+        ObjectMapper mapper = new ObjectMapper();
+        String bookDTOJson = mapper.writeValueAsString(bookDTO);
+
+        // Performar la solicitud POST con el contenido de BookDTO
         mockMvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":\"1\", \"title\":\"Book One\", \"edition\":1}"))
-                .andExpect(status().isOk());
+                        .content(bookDTOJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(book.getId()))
+                .andExpect(jsonPath("$.title").value(book.getTitle()))
+                .andExpect(jsonPath("$.amount").value(book.getAmount()));
     }
+
 
     @Test
     public void saveBook_fail() throws Exception {
