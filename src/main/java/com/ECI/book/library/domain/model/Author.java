@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -22,4 +23,8 @@ public class Author {
     private String name;
     private int age;
     private Date birthday;
+
+
+
+
 }

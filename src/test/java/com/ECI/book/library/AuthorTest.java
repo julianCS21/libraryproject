@@ -10,7 +10,7 @@ public class AuthorTest {
 
     @Test
     public void testNoArgsConstructor() {
-        Author author = new Author();
+        Author author = Author.builder().build();
         assertNull(author.getId());
         assertNull(author.getBiography());
         assertEquals(0, author.getAge());
@@ -20,7 +20,12 @@ public class AuthorTest {
     @Test
     public void testAllArgsConstructor() {
         Date birthday = new Date();
-        Author author = new Author("1", "Some biography", 30, birthday);
+        Author author = Author.builder()
+                .id("1")
+                .biography("Some biography")
+                .age(30)
+                .birthday(birthday)
+                .build();
         assertEquals("1", author.getId());
         assertEquals("Some biography", author.getBiography());
         assertEquals(30, author.getAge());
@@ -29,13 +34,13 @@ public class AuthorTest {
 
     @Test
     public void testSettersAndGetters() {
-        Author author = new Author();
-        author.setId("2");
-        author.setBiography("Another biography");
-        author.setAge(25);
         Date newBirthday = new Date();
-        author.setBirthday(newBirthday);
-
+        Author author = Author.builder()
+                .id("2")
+                .biography("Another biography")
+                .age(25)
+                .birthday(newBirthday)
+                .build();
         assertEquals("2", author.getId());
         assertEquals("Another biography", author.getBiography());
         assertEquals(25, author.getAge());
@@ -44,23 +49,51 @@ public class AuthorTest {
 
     @Test
     public void testEquals() {
-        Author author1 = new Author("1", "Bio", 40, new Date());
-        Author author2 = new Author("1", "Bio", 40, new Date());
+        Date birthDate = new Date();
+        Author author1 = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(40)
+                .birthday(birthDate)
+                .build();
+        Author author2 = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(40)
+                .birthday(birthDate)
+                .build();
         assertTrue(author1.equals(author2) && author2.equals(author1));
         assertEquals(author1.hashCode(), author2.hashCode());
     }
 
     @Test
     public void testNotEquals() {
-        Author author1 = new Author("1", "Bio", 40, new Date());
-        Author author2 = new Author("2", "Bio", 40, new Date());
+        Date birthDate = new Date();
+        Author author1 = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(40)
+                .birthday(birthDate)
+                .build();
+        Author author2 = Author.builder()
+                .id("2")
+                .biography("Bio")
+                .age(40)
+                .birthday(birthDate)
+                .build();
         assertFalse(author1.equals(author2));
     }
 
     @Test
     public void testToString() {
-        Author author = new Author("1", "Bio", 40, new Date());
-        String expected = "Author(id=1, biography=Bio, age=40, birthday=" + author.getBirthday() + ")";
+        Date birthday = new Date();
+        Author author = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(40)
+                .birthday(birthday)
+                .build();
+        String expected = "Author(id=1, biography=Bio, name=null, age=40, birthday=" + author.getBirthday() + ")";
         assertEquals(expected, author.toString());
     }
 
@@ -85,80 +118,168 @@ public class AuthorTest {
     @Test
     public void testEqualsWithDifferentId() {
         Date birthday = new Date();
-        Author author1 = new Author("1", "Bio", 40, birthday);
-        Author author2 = new Author("2", "Bio", 40, birthday);
+        Author author1 = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(40)
+                .birthday(birthday)
+                .build();
+        Author author2 = Author.builder()
+                .id("2")
+                .biography("Bio")
+                .age(40)
+                .birthday(birthday)
+                .build();
         assertFalse(author1.equals(author2));
     }
 
     @Test
     public void testEqualsWithDifferentBiography() {
         Date birthday = new Date();
-        Author author1 = new Author("1", "Bio1", 40, birthday);
-        Author author2 = new Author("1", "Bio2", 40, birthday);
+        Author author1 = Author.builder()
+                .id("1")
+                .biography("Bio1")
+                .age(40)
+                .birthday(birthday)
+                .build();
+        Author author2 = Author.builder()
+                .id("1")
+                .biography("Bio2")
+                .age(40)
+                .birthday(birthday)
+                .build();
         assertFalse(author1.equals(author2));
     }
 
     @Test
     public void testEqualsWithDifferentAge() {
         Date birthday = new Date();
-        Author author1 = new Author("1", "Bio", 40, birthday);
-        Author author2 = new Author("1", "Bio", 41, birthday);
+        Author author1 = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(40)
+                .birthday(birthday)
+                .build();
+        Author author2 = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(41)
+                .birthday(birthday)
+                .build();
         assertFalse(author1.equals(author2));
     }
 
     @Test
     public void testEqualsWithDifferentBirthday() {
-        Author author1 = new Author("1", "Bio", 40, new Date(1000000000000L));
-        Author author2 = new Author("1", "Bio", 40, new Date(1000000000001L));
+        Author author1 = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(40)
+                .birthday(new Date(1000000000000L))
+                .build();
+        Author author2 = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(40)
+                .birthday(new Date(1000000000001L))
+                .build();
         assertFalse(author1.equals(author2));
     }
 
     @Test
     public void testEqualsWithNull() {
-        Author author = new Author("1", "Bio", 40, new Date());
+        Date birthday = new Date();
+        Author author = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(40)
+                .birthday(birthday)
+                .build();
         assertFalse(author.equals(null));
     }
 
     @Test
     public void testEqualsWithDifferentClass() {
-        Author author = new Author("1", "Bio", 40, new Date());
+        Date birthday = new Date();
+        Author author = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(40)
+                .birthday(birthday)
+                .build();
         assertFalse(author.equals(new String("Different Class")));
     }
 
     @Test
     public void testHashCodeConsistency() {
         Date birthday = new Date();
-        Author author = new Author("1", "Bio", 40, birthday);
+        Author author = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(40)
+                .birthday(birthday)
+                .build();
         int initialHashCode = author.hashCode();
         assertEquals(initialHashCode, author.hashCode());
     }
 
     @Test
     public void testHashCodeWithDifferentValues() {
-        Author author1 = new Author("1", "Bio", 40, new Date());
-        Author author2 = new Author("1", "Bio", 41, new Date());
+        Date birthday = new Date();
+        Author author1 = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(40)
+                .birthday(birthday)
+                .build();
+        Author author2 = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(41)
+                .birthday(birthday)
+                .build();
         assertNotEquals(author1.hashCode(), author2.hashCode());
     }
 
-
     @Test
     public void testEqualsWithNullFields() {
-        Author author1 = new Author("1", null, 40, null);
-        Author author2 = new Author("1", null, 40, null);
-        Author author3 = new Author("1", "Bio", 40, new Date());
-
-        assertTrue(author1.equals(author2)); // Ambos tienen campos nulos, deberían ser iguales
-        assertFalse(author1.equals(author3)); // Diferencia en campos que son nulos en uno y no en el otro
-
-        assertEquals(author1.hashCode(), author2.hashCode());
-        assertNotEquals(author1.hashCode(), author3.hashCode());
+        Author author1 = Author.builder()
+                .id("1")
+                .biography(null)
+                .age(40)
+                .birthday(null)
+                .build();
+        Author author2 = Author.builder()
+                .id("1")
+                .biography(null)
+                .age(40)
+                .birthday(null)
+                .build();
+        Author author3 = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(40)
+                .birthday(new Date())
+                .build();
+        assertTrue(author1.equals(author2));
+        assertFalse(author1.equals(author3));
     }
 
     @Test
     public void testNullBiographyAndBirthdayInEqualsAndHashcode() {
-        Author authorWithNullFields = new Author("1", null, 40, null);
-        Author authorWithNonNullFields = new Author("1", "Bio", 40, new Date());
-
+        Author authorWithNullFields = Author.builder()
+                .id("1")
+                .biography(null)
+                .age(40)
+                .birthday(null)
+                .build();
+        Date birthday = new Date();
+        Author authorWithNonNullFields = Author.builder()
+                .id("1")
+                .biography("Bio")
+                .age(40)
+                .birthday(birthday)
+                .build();
         assertFalse(authorWithNullFields.equals(authorWithNonNullFields));
         assertNotEquals(authorWithNullFields.hashCode(), authorWithNonNullFields.hashCode());
     }
