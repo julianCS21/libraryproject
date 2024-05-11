@@ -49,7 +49,6 @@ public class BookController {
             Book savedBook = lendBookUseCase.save(book);
             return ResponseEntity.ok(savedBook);
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
